@@ -44,7 +44,6 @@ class Main
 
 // } Driver Code Ends
 
-
 //User function Template for Java
 
 //arr1,arr2 : the arrays
@@ -54,19 +53,41 @@ class Solution
     //Function to return a list containing the union of the two arrays.
     public static ArrayList<Integer> findUnion(int arr1[], int arr2[], int n, int m)
     {
-        Set<Integer> resultSet = new HashSet<>();
+        int i = 0, j = 0;
+        ArrayList<Integer> unionArr = new ArrayList<>();
         
-        for (int x: arr1){
-            resultSet.add(x);
+        while (i < n && j < m) {
+            if (arr1[i] <= arr2[j]) {
+                if (unionArr.size() == 0 || unionArr.get(unionArr.size() - 1) != arr1[i]) {
+                    unionArr.add(arr1[i]);
+                }
+                i++; 
+            } else {
+                if (unionArr.size() == 0 || unionArr.get(unionArr.size() - 1) != arr2[j]) {
+                    unionArr.add(arr2[j]);
+                }
+                j++;
+            }
         }
-        for (int y: arr2){
-            resultSet.add(y);
+        
+        while (i < n) {
+            if (unionArr.size() == 0 || unionArr.get(unionArr.size() - 1) != arr1[i]) {
+                unionArr.add(arr1[i]);
+            }
+            i++;
         }
-        ArrayList<Integer> ans = new ArrayList<>(resultSet);
-        Collections.sort(ans);
-        return ans;
+        
+        while (j < m) {
+            if (unionArr.size() == 0 || unionArr.get(unionArr.size() - 1) != arr2[j]) {
+                unionArr.add(arr2[j]);
+            }
+            j++;
+        }
+        
+        return unionArr;
     }
 }
+
 
 
 
