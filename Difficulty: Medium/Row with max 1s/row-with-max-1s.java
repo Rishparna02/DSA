@@ -7,19 +7,16 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int tc = Integer.parseInt(br.readLine().trim());
+        Scanner sc = new Scanner(System.in);
+        int tc = sc.nextInt();
         while (tc-- > 0) {
-            String[] inputLine;
-            inputLine = br.readLine().trim().split(" ");
-            int n = Integer.parseInt(inputLine[0]);
-            int m = Integer.parseInt(inputLine[1]);
-            int[][] arr = new int[n][m];
-            inputLine = br.readLine().trim().split(" ");
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            int arr[][] = new int[n][m];
 
             for (int i = 0; i < n; i++) {
                 for (int j = 0; j < m; j++) {
-                    arr[i][j] = Integer.parseInt(inputLine[i * m + j]);
+                    arr[i][j] = sc.nextInt();
                 }
             }
             int ans = new Solution().rowWithMax1s(arr);
@@ -33,18 +30,34 @@ public class Main {
 
 // User function Template for Java
 
-class Solution {
-    public int rowWithMax1s(int arr[][]) {
-        // code here
-        int i = 0, j = arr[0].length-1, ans = -1;
-        while (i<arr.length && j>= 0){
-            if(arr[i][j] == 0){
-                i++;
+class Solution { 
+    public static int lowerbound (int[] arr, int n, int x){
+    int low = 0, high = n-1;
+        int ans = n;
+        while (low <= high){
+            int mid = (low + high) / 2;
+            if(arr[mid] >= x){
+                ans = mid;
+                high = mid - 1;
             } else {
-                ans = i;
-                j--;
+                low = mid + 1;
             }
         }
         return ans;
+    }
+    public int rowWithMax1s(int arr[][]) {
+        int n = arr.length;
+        if (n == 0) return -1;
+        int m = arr[0].length;
+        int cnt_max = 0;
+        int index = -1;
+        for(int i = 0; i<n; i++){
+            int cnt_ones = m - lowerbound(arr[i], m, 1);
+            if (cnt_ones > cnt_max){
+                cnt_max = cnt_ones;
+                index = i;
+            }
+        }
+        return index;
     }
 }
