@@ -73,15 +73,43 @@ class Node
 */
 class Solution {
     public Node deleteNode(Node head, int x) {
-        if(x==1) return head.next;
-        int count=1;
-        Node temp = head;
-        while(count<x){
-            temp=temp.next;
-            count++;
+        if (head == null || x<=0){
+            return head;
         }
-        temp.prev.next=temp.next;
-        if(temp.next!=null) temp.next.prev = temp.prev;
+        if (x == 1){
+            Node newHead = head.next;
+            if(newHead != null){
+                newHead.prev = null;
+            }
+            head.next = null;
+            return newHead;
+        }
+        Node current = head;
+
+        // Traverse to the node at position `x`
+        for (int i = 1; i < x && current != null; i++) {
+            current = current.next;
+        }
+
+        if (current == null) {
+            return head; // Return head if x is out of bounds
+        }
+
+        // Update the previous node's next pointer
+        if (current.prev != null) {
+            current.prev.next = current.next;
+        }
+
+        // Update the next node's previous pointer
+        if (current.next != null) {
+            current.next.prev = current.prev;
+        }
+
+        // Disconnect the current node from the list
+        current.next = current.prev = null;
+
         return head;
     }
-}
+
+    }
+
