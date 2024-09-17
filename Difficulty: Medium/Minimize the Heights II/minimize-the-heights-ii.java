@@ -37,34 +37,24 @@ public class Main {
 
 class Solution {
     int getMinDiff(int[] arr, int k) {
-        int n = arr.length;
-        
-        // Base case: if only one element, no difference
-        if (n == 1) return 0;
-        
-        // Sort the array
+        // code here
+        int n=arr.length;
+        int max=Integer.MAX_VALUE;
+        int min=Integer.MIN_VALUE;
         Arrays.sort(arr);
-        
-        // Initial difference between max and min heights
-        int diff = arr[n - 1] - arr[0];
-        
-        // Smallest and largest values after adjustments
-        int smallest = arr[0] + k;
-        int largest = arr[n - 1] - k;
-        
-        // Iterate through the array to find the minimum possible difference
-        for (int i = 0; i < n - 1; i++) {
-            int mini = Math.min(smallest, arr[i + 1] - k);
-            int maxi = Math.max(largest, arr[i] + k);
-            
-            // Skip if mini is negative
-            if (mini < 0) continue;
-            
-            // Update the difference
-            diff = Math.min(diff, maxi - mini);
+        int ans=arr[n-1]-arr[0];
+        for(int i=1;i<n;i++){
+            if(arr[i]>=k){
+                max=Math.max(arr[i-1]+k,arr[n-1]-k);
+                min=Math.min(arr[0]+k,arr[i]-k);
+                ans=Math.min(ans,max-min);
+            }
+            else continue;
         }
+        return ans;
         
-        return diff;
     }
 }
+
+
 
