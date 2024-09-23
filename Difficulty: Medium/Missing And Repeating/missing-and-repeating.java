@@ -29,16 +29,31 @@ class GFG {
 // User function Template for Java
 
 class Solve {
-    int[] findTwoElement(int arr[]) {
-        // code here
-        Arrays.sort(arr);
-        int count = 1, rep = 0;
-        for(int i = 0; i<arr.length; i++){
-            if(arr[i] == count)
-            count++;
-            if(i+1<arr.length && arr[i] == arr[i+1])
-            rep = arr[i];
+    int[] findTwoElement(int arr[]) 
+    {
+        int n=arr.length;
+        int missing=-1,repeating=-1;
+        HashSet<Integer>set=new HashSet<>();
+        for(int i=0;i<n;i++)
+        {
+            if(set.contains(arr[i]))
+            {
+                repeating=arr[i];
+            }
+            else
+            {
+                set.add(arr[i]);
+            }
         }
-        return new int[] {rep, count};
+        for(int i=1;i<=n;i++)
+        {
+            if(!set.contains(i))
+            {
+                missing=i;
+                break;
+            }
+        }
+        int ans[]={repeating,missing};
+        return ans;
     }
 }
