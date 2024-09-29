@@ -42,36 +42,47 @@ class GfG
 
 
 class MyQueue {
- 
+
     int front, rear;
-int arr[] = new int[100005];
- 
+	int arr[] = new int[100005];
+	int curSize = 0;
+	int capacity = 100005;
+
     MyQueue()
-{
-front=0;
-rear=0;
-}
- 
-//Function to push an element x in a queue.
-void push(int x)
-{
-    this.arr[this.rear] = x;
-    this.rear++;
-} 
- 
+	{
+		front=0;
+		rear=0;
+		curSize = 0;
+	}
+	
+	//Function to push an element x in a queue.
+	void push(int x)
+	{
+	    // Your code here
+	    if (curSize == capacity){
+	        System.out.println("Queue Overflow");
+	        return;
+	    }
+	    arr[rear] = x;
+	    rear = (rear + 1) % capacity;
+	    curSize += 1;
+	    }
+	 
+
     //Function to pop an element from queue and return that element.
-int pop()
-{
-    if(front == rear){
-        return -1;
-    }
-int val = this.arr[this.front];
-this.arr[this.front] = 0;
-this.front++;
- 
-return val;
-} 
+	int pop()
+	{
+		// Your code here
+		if(curSize == 0){
+		    return -1;
+		}
+		int el = arr[front];
+		front = (front + 1) % capacity;
+ 		curSize -= 1;
+ 		return el;
+	} 
 }
+
 
 
 
