@@ -44,16 +44,18 @@ class Solution {
     int maxSubarraySum(int[] arr) {
 
         // Your code here
-        int curSum = 0, max = Integer.MIN_VALUE;
-        for(int i : arr){
-            curSum += i;
-            if(curSum > max){
-                max = curSum;
-            }
-            if(curSum < 0){
-                curSum = 0;
+         int maxi = Integer.MIN_VALUE; // Similar to -1e9
+        int n = arr.length;
+        int sum = 0;
+
+        for (int i = 0; i < n; i++) {
+            sum += arr[i];
+            maxi = Math.max(maxi, sum);
+            if (sum < 0) {
+                sum = 0;
             }
         }
-        return max;
+
+        return maxi;
     }
 }
