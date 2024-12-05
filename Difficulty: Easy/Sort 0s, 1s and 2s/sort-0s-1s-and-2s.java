@@ -11,11 +11,9 @@ class GFG {
         while (t-- > 0) {
             String input = br.readLine();
             String[] inputArray = input.split("\\s+");
-            ArrayList<Integer> a = new ArrayList<>();
+            int a[] = new int[inputArray.length];
 
-            for (String s : inputArray) {
-                a.add(Integer.parseInt(s));
-            }
+            for (int i = 0; i < a.length; i++) a[i] = Integer.parseInt(inputArray[i]);
 
             Solution ob = new Solution();
             ob.sort012(a);
@@ -24,32 +22,38 @@ class GFG {
                 System.out.print(num + " ");
             }
             System.out.println();
+            System.out.println("~");
         }
     }
 }
+
 
 // } Driver Code Ends
-
-
 class Solution {
     // Function to sort an array of 0s, 1s, and 2s
-    public void sort012(ArrayList<Integer> arr) {
-        // code here
-        int n = arr.size(), zero = 0, two = n - 1, i = 0;
-        while(i <= two){
-            if(arr.get(i) == 0){
-                int temp = arr.get(i);
-                arr.set(i, arr.get(zero));
-                arr.set(zero, temp);
-                zero++;
-            } else if (arr.get(i) == 2){
-                int temp = arr.get(i);
-                arr.set(i, arr.get(two));
-                arr.set(two, temp);
-                two--;
-                i--;
-            }
-            i++;
+    public void sort012(int[] arr) {
+        // code her
+        int low = 0, mid = 0, high = arr.length - 1;
+        while (mid <= high) {
+        if (arr[mid] == 0) {
+            // Swap arr[low] and arr[mid]
+            int temp = arr[low];
+            arr[low] = arr[mid];
+            arr[mid] = temp;
+            low++;
+            mid++;
+        } else if (arr[mid] == 1) {
+            mid++;
+        } else { // arr[mid] == 2
+            // Swap arr[mid] and arr[high]
+            int temp = arr[mid];
+            arr[mid] = arr[high];
+            arr[high] = temp;
+            high--;
+        }
         }
     }
 }
+
+//{ Driver Code Starts.
+// } Driver Code Ends
