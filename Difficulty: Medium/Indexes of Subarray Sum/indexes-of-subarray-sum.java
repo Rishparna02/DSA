@@ -2,45 +2,29 @@
 import java.io.*;
 import java.util.*;
 
-class IntArray {
-    public static int[] input(BufferedReader br, int n) throws IOException {
-        String[] s = br.readLine().trim().split(" ");
-        int[] a = new int[n];
-        for (int i = 0; i < n; i++) a[i] = Integer.parseInt(s[i]);
+class Main {
+    public static void main(String args[]) throws IOException {
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
+        int t = Integer.parseInt(read.readLine().trim());
 
-        return a;
-    }
-
-    public static void print(int[] a) {
-        for (int e : a) System.out.print(e + " ");
-        System.out.println();
-    }
-
-    public static void print(ArrayList<Integer> a) {
-        StringBuilder sb = new StringBuilder();
-        for (int e : a) sb.append(e + " ");
-        System.out.println(sb);
-    }
-}
-
-class GFG {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        int t;
-        t = Integer.parseInt(br.readLine());
         while (t-- > 0) {
-            String str[] = br.readLine().trim().split(" ");
+            String line = read.readLine().trim();
+            String[] numsStr = line.split(" ");
+            int[] nums = new int[numsStr.length];
+            for (int i = 0; i < numsStr.length; i++) {
+                nums[i] = Integer.parseInt(numsStr[i]);
+            }
 
-            int n = Integer.parseInt(str[0]);
-            int s = Integer.parseInt(str[1]);
+            int d = Integer.parseInt(read.readLine().trim());
 
-            int[] arr = IntArray.input(br, n);
-
-            Solution obj = new Solution();
-            ArrayList<Integer> res = obj.subarraySum(arr, n, s);
-
-            IntArray.print(res);
+            Solution ob = new Solution();
+            ArrayList<Integer> result = ob.subarraySum(nums, d);
+            // Print all elements in the result list
+            for (int i : result) {
+                System.out.print(i + " ");
+            }
+            System.out.println(); // Print a new line after the result
+            System.out.println("~");
         }
     }
 }
@@ -50,37 +34,25 @@ class GFG {
 
 
 class Solution {
-    public static ArrayList<Integer> subarraySum(int[] arr, int n, int s) {
-        // To store the result (left and right index)
-        ArrayList<Integer> result = new ArrayList<>();
-
-        // Initialize variables
-        int currentSum = arr[0];
-        int start = 0;
-
-        // Traverse the array
-        for (int end = 1; end <= n; end++) {
-            // Reduce the window size if currentSum exceeds s
-            while (currentSum > s && start < end - 1) {
-                currentSum -= arr[start];
-                start++;
-            }
-
-            // Check if we found the subarray with sum equal to s
-            if (currentSum == s) {
-                result.add(start + 1); // 1-based index for left
-                result.add(end); // 1-based index for right
-                return result;
-            }
-
-            // Add the current element to currentSum if end is within array bounds
-            if (end < n) {
-                currentSum += arr[end];
+    static ArrayList<Integer> subarraySum(int[] arr, int target) {
+        // code here
+        ArrayList<Integer> obj=new ArrayList<>();
+        for(int i = 0;i < arr.length; i++)
+        {
+            int sum = 0;
+            for(int j = i; j < arr.length; j++)
+            {
+                sum+=arr[j];
+                if(sum==target)
+                {
+                    obj.add(i+1);
+                    obj.add(j+1);
+                    return obj;
+                }
+                if(sum>target)break;
             }
         }
-
-        // If no subarray found, return -1
-        result.add(-1);
-        return result;
+        obj.add(-1);
+        return obj;
     }
 }
