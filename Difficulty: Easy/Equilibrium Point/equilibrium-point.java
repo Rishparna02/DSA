@@ -42,21 +42,35 @@ class Solution {
     // Function to find equilibrium point in the array.
     public static int findEquilibrium(int arr[]) {
         // code here
-        int totalsum=0;
-       int leftsum=0;
-       int n=arr.length;
-       for(int i=0;i<n;i++){
-           totalsum+=arr[i];
-       }
-       for(int i=0;i<n;i++){
-           //totalsum=leftsum+rightsum
-           //rightsum=totalsum-leftsum
-           totalsum-=arr[i];//leftsum decreasing from totalsum
-           if(leftsum==totalsum){
-               return i;
-           }
-           leftsum+=arr[i]; //updating leftsum index wise
-       }
-      return -1;
+        int totalSum = 0;
+        for (int num : arr) {
+            totalSum += num;
+        }
+
+        int leftSum = 0;
+        for (int i = 0; i < arr.length; i++) {
+            totalSum -= arr[i];
+            if (leftSum == totalSum) {
+                return i;
+            }
+            leftSum += arr[i];
+        }
+
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the number of elements in the array:");
+        int n = scanner.nextInt();
+        int[] arr = new int[n];
+
+        System.out.println("Enter the elements of the array:");
+        for (int i = 0; i < n; i++) {
+            arr[i] = scanner.nextInt();
+        }
+
+        int equilibriumIndex = findEquilibrium(arr);
+        System.out.println("The first equilibrium index is: " + equilibriumIndex);
     }
 }
