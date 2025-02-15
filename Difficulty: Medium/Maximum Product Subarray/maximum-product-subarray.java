@@ -27,20 +27,16 @@ class Solution {
     int maxProduct(int[] arr) {
         // code here
         int n = arr.length;
-        int left = 1;
-        int right = 1;
-        int ans= arr[0];
         
-        for(int i=0; i<n; i++){
-            if(left ==0){
-                left = 1;
-            }
-            if(right == 0){
-                right = 1;
-            }
-            left *= arr[i];
-            right *= arr[n-i-1];
-            ans = Math.max(ans, Math.max(left,right));
+        int pre = 1, suff = 1;
+        int ans = Integer.MIN_VALUE;
+        
+        for(int i = 0; i < n; i++){
+            if(pre == 0) pre = 1;
+            if(suff == 0) suff = 1;
+            pre *= arr[i];
+            suff *= arr[n - i - 1];
+            ans = Math.max(ans, Math.max(pre, suff));
         }
         return ans;
     }
