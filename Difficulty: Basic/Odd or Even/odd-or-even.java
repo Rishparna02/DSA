@@ -11,7 +11,10 @@ class GFG {
             int N = Integer.parseInt(read.readLine());
 
             Solution ob = new Solution();
-            System.out.println(ob.oddEven(N));
+            if (ob.isEven(N))
+                System.out.println("true");
+            else
+                System.out.println("false");
         }
     }
 }
@@ -20,8 +23,9 @@ class GFG {
 
 // User function Template for Java
 class Solution {
-    static String oddEven(int n) {
+    static boolean isEven(int n) {
         // code here
-        return ((n&1) == 1) ? "odd" : "even";
+        
+        return (n % 2 == 0) ? true : false;
     }
 }
