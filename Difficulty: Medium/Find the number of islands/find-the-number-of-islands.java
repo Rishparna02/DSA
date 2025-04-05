@@ -4,10 +4,10 @@ import java.util.*;
 class GFG {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int tc = scanner.nextInt(); // Number of test cases
+        int tc = scanner.nextInt();
         while (tc-- > 0) {
-            int n = scanner.nextInt(); // Number of rows
-            int m = scanner.nextInt(); // Number of columns
+            int n = scanner.nextInt();
+            int m = scanner.nextInt();
             char[][] grid = new char[n][m];
 
             // Read the grid input
@@ -17,7 +17,7 @@ class GFG {
                 }
             }
             Solution obj = new Solution();
-            int ans = obj.numIslands(grid);
+            int ans = obj.countIslands(grid);
             System.out.println(ans);
             System.out.println("~");
         }
@@ -29,36 +29,31 @@ class GFG {
 
 
 class Solution {
-     public void traverse(char[][] grid, int x, int y)
-    {
-        if(x>=grid.length || y>=grid[0].length || x<0 || y<0)return;
-        if(grid[x][y]=='1')
-        {
-            grid[x][y]='0';
-            traverse(grid, x+1, y);
-            traverse(grid, x-1, y);
-            traverse(grid, x, y+1);
-            traverse(grid, x, y-1);
-            traverse(grid, x-1, y-1);
-            traverse(grid, x+1, y-1);
-            traverse(grid, x-1, y+1);
-            traverse(grid, x+1, y+1);
+    static int[][] dirs = {{-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, {-1, -1}};
+    void dfs (int r, int c, char[][] grid, boolean[][] vis, int n, int m) {
+        vis[r][c] = true;
+        for (int i = 0; i < dirs.length; ++i) {
+            int nr = r + dirs[i][0];
+            int nc = c + dirs[i][1];
+            if (nr >= 0 && nr <  n && nc >= 0 && nc < m && !vis[nr][nc] && grid[nr][nc] == 'L')
+                dfs (nr, nc, grid, vis, n, m);
         }
     }
-    public int numIslands(char[][] grid) {
+    public int countIslands(char[][] grid) {
         // Code here
-        int result=0;
-        for(int i=0; i<grid.length;i++)
-        {
-            for(int j=0;j<grid[0].length;j++)
-            {
-                if(grid[i][j]=='1')
-                {
-                    result+=1;
-                    traverse(grid, i, j);
+        int n = grid.length;
+        int m = grid[0].length;
+        
+        boolean[][] vis = new boolean[n][m];
+        int cnt = 0;
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                if (grid[i][j] == 'L' && !vis[i][j]) {
+                    dfs (i, j, grid, vis, n, m);
+                    cnt++;
                 }
             }
         }
-        return result;
+        return cnt;
     }
 }
