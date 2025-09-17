@@ -1,67 +1,41 @@
-//{ Driver Code Starts
-import java.io.*;
-import java.util.*;
-
-class GFG {
-    public static void main(String args[]) throws IOException {
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        PrintWriter out = new PrintWriter(System.out);
-        int t = Integer.parseInt(in.readLine());
-        while (t-- > 0) {
-            String s = in.readLine();
-
-            Solution ob = new Solution();
-            out.println(ob.decodeString(s));
-
-            out.println("~");
-        }
-        out.close();
-    }
-}
-// } Driver Code Ends
-
-
-
 class Solution {
     static String decodeString(String s) {
         // code here
-        Stack<Integer>val=new Stack<>();
-        Stack<Character>stack=new Stack<>();
-        StringBuilder res=new StringBuilder();
-        for(int i=0;i<s.length();){
-            char ch=s.charAt(i);
-            if(ch>='0'&&ch<='9'){
-                StringBuilder str=new StringBuilder();
-                while(ch>='0'&&ch<='9'){
-                    str.append(ch);
-                    i++;
-                    ch=s.charAt(i);
+        Stack<String> st = new Stack<>();
+        
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            
+            if (c != ']') {
+                st.push(Character.toString(c));
+            } else {
+                StringBuilder str1 = new StringBuilder();
+                
+                while (!st.isEmpty() && !st.peek().equals("[")) {
+                    str1.insert(0, st.pop());
                 }
-                int cnt=Integer.parseInt(str.toString());
-                val.push(cnt);
-            }else if(ch==']'){
-                StringBuilder str=new StringBuilder();
-                while(!stack.isEmpty()&&stack.peek()!='['){
-                    char ch1=stack.pop();
-                    str.append(ch1);
+                st.pop(); // remove '['
+                
+                StringBuilder num = new StringBuilder();
+                while (!st.isEmpty() && !st.peek().isEmpty() && Character.isDigit(st.peek().charAt(0))) {
+                    num.insert(0, st.pop());
                 }
-                stack.pop();
-                int times=val.pop();
-                str.reverse();
-                for(int j=0;j<times;j++){
-                    for(int k=0;k<str.length();k++){
-                        stack.push(str.charAt(k));
-                    }
+                
+                int count=1;
+                if(num.length()>0)
+                {
+                 count = Integer.parseInt(num.toString());
                 }
-                i++;
-            }else{
-                stack.push(ch);
-                i++;
+                
+                String temp = str1.toString().repeat(count);
+                st.push(temp);
             }
         }
-       while (!stack.isEmpty()) {
-            res.append(stack.pop());
+        
+        StringBuilder res = new StringBuilder();
+        for (String part : st) {
+            res.append(part);
         }
-        return res.reverse().toString();
+        return res.toString();
     }
 }
